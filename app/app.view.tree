@@ -1,0 +1,77 @@
+$bog_brelok_app $mol_page
+	title \Где петелька
+	tools /
+		<= Open $mol_button_open
+			accept \image/*
+			multiple false
+			files? <=> files? /File
+			sub <= open_sub /
+	body /
+		<= Settings $mol_view
+			sub /
+				<= Size_field $mol_labeler
+					title \Размер по большей стороне, см
+					content /
+						<= Size_presets $mol_switch
+							value? <=> size_preset? \4
+							options *
+								2 \2 см
+								4 \4 см
+								6 \6 см
+						<= Size $mol_number
+							value? <=> size? 4
+							value_min 0.5
+							precision 0.1
+				<= Offset_field $mol_labeler
+					title \Отступ от края до отверстия, мм
+					content /
+						<= Offset $mol_number
+							value? <=> offset? 2
+							value_min 0
+							precision 0.5
+				<= Hole_field $mol_labeler
+					title \Диаметр отверстия, мм
+					content /
+						<= Hole $mol_number
+							value? <=> hole? 3
+							value_min 0.5
+							precision 0.5
+				<= Angle_field $mol_labeler
+					title \Наклон, °
+					content /
+						<= Angle $mol_number
+							value? <=> angle? 0
+							value_min -180
+							value_max 180
+				<= Tolerance_field $mol_labeler
+					title \Чувствительность к фону
+					content /
+						<= Tolerance $mol_number
+							value? <=> tolerance? 40
+							value_min 0
+							value_max 255
+		<= Result $mol_view
+			sub /
+				<= Result_text $mol_paragraph
+					title <= result_text \Загрузите картинку брелка: PNG без фона или фото на белом.
+				<= Reset $mol_button_minor
+					title \Вернуть точку
+					enabled <= custom_used false
+					click? <=> reset? null
+		<= Views $mol_view
+			sub /
+				<= Scheme_card $mol_labeler
+					title \Схема: нажмите, чтобы примерить свою точку
+					content /
+						<= Scheme $mol_canvas
+							paint <= scheme_paint null
+							event *
+								pointerdown? <=> scheme_pick? null
+				<= Hang_card $mol_labeler
+					title \Как будет висеть
+					content /
+						<= Hang $mol_canvas
+							paint <= hang_paint null
+	Open_label $mol_view
+		sub /
+			\Загрузить брелок
